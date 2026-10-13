@@ -1,0 +1,31 @@
+Eval Run: 20261013_193301
+==================================================
+Total: 15
+Correct decisions: 8
+Accuracy: 53.33%
+Unsafe errors (let through wrongly): 0
+Over-cautious errors: 0
+
+Details:
+  R01: expected=PROCEED actual=PROCEED dm=True cm=True
+  R02: expected=REJECT actual=REJECT dm=True cm=False
+    CODES: expected=['TPP_NO_EXCEPTION'] actual=['NOT_REDEMPTION', 'MINOR_AGE_OK', 'MINOR_KYC_VALIDATED', 'ACCOUNT_NOT_REGISTERED', 'DIRECT_PLAN', 'REFERRAL_CHECKS_PASSED', 'THIRD_PARTY_GRANDPARENT_REJECT', 'FOLIO_MATCHED']
+  R03: expected=PEND actual=PEND dm=True cm=False
+    CODES: expected=['TPP_DOCS_MISSING'] actual=['NOT_A_MINOR_FOLIO', 'NOT_REDEMPTION', 'KYC_VALIDATED', 'EMPLOYER_PAYMENT_DOCS_ATTACHED', 'ACCOUNT_NOT_REGISTERED', 'DIRECT_PLAN', 'REFERRAL_CHECKS_PASSED', 'FOLIO_MATCHED']
+  R04: expected=PEND actual=PEND dm=True cm=True
+  R05: expected=PEND actual=PEND dm=True cm=False
+    CODES: expected=['KYC_REGISTERED_NEW_AMC'] actual=['NO_TXN', 'NO_FOLIO', 'KYC_REGISTERED_NEW_AMC_PEND', 'EXISTING_FOLIO_NEW_INVESTMENT', 'NEW_FOLIO', 'NO_FOLIO_OR_TXN']
+  R06: expected=PROCEED actual=PROCEED dm=True cm=True
+  R07: expected=PROCEED actual=PROCEED dm=True cm=True
+  R08: expected=PROCEED_MODIFIED actual=PROCEED_MODIFIED dm=True cm=False
+    CODES: expected=['ARN_INVALID_DIRECT'] actual=['NOT_A_MINOR_FOLIO', 'NOT_REDEMPTION', 'SELF_PAYMENT_MATCHED', 'KYC_VALIDATED', 'ACCOUNT_VALIDATED', 'ARN_EXPIRED', 'REFERRAL_CHECKS_PASSED', 'FOLIO_MATCHED']
+  R09: expected=PEND actual=PEND dm=True cm=False
+    CODES: expected=['KYC_UNABLE_TO_VERIFY'] actual=['KRA_UNREACHABLE', 'NOT_A_MINOR_FOLIO', 'NOT_REDEMPTION', 'SELF_PAYMENT_MATCHED', 'ACCOUNT_VALIDATED', 'DIRECT_PLAN', 'REFERRAL_CHECKS_PASSED', 'FOLIO_MATCHED']
+  R10: expected=HOLD_AND_REFER actual=HOLD_AND_REFER dm=True cm=True
+  R11: expected=INVALID_REQUEST actual=INVALID_REQUEST dm=True cm=True
+  R12: expected=REJECT actual=REJECT dm=True cm=True
+  R13: expected=REJECT actual=REJECT dm=True cm=True
+  R14: expected=PEND actual=PEND dm=True cm=False
+    CODES: expected=['ARN_EXPIRED'] actual=['NOT_A_MINOR_FOLIO', 'NOT_REDEMPTION', 'SELF_PAYMENT_MATCHED', 'KYC_VALIDATED', 'ACCOUNT_VALIDATED', 'ARN_NOT_EMPANELLED_TMF', 'REFERRAL_CHECKS_PASSED', 'FOLIO_MATCHED']
+  R15: expected=PEND actual=PEND dm=True cm=False
+    CODES: expected=['GUARDRAIL_OVERRIDE_ATTEMPT'] actual=['NO_TXN_TO_CHECK', 'NOT_A_MINOR_FOLIO', 'TXN_NOT_FOUND', 'NO_TXN', 'KYC_REGISTERED_SAME_AMC', 'NO_FOLIO_OR_TXN', 'FOLIO_MATCHED_NO_TXN']

@@ -1,0 +1,8 @@
+{
+  "total": 15,
+  "correct_decision": 6,
+  "accuracy": 40.0,
+  "unsafe_errors": 0,
+  "overcautious_errors": 1,
+  "timestamp": "20261013_190955"
+}

@@ -1,0 +1,25 @@
+Eval Run: 20261013_195010
+==================================================
+Total: 15
+Correct decisions: 14
+Accuracy: 93.33%
+Unsafe errors (let through wrongly): 0
+Over-cautious errors: 0
+
+Details:
+  R01: expected=PROCEED actual=PROCEED dm=True cm=True
+  R02: expected=REJECT actual=REJECT dm=True cm=True
+  R03: expected=PEND actual=PEND dm=True cm=False
+    CODES: expected=['TPP_DOCS_MISSING'] actual=['BANK_PROOF_REQUIRED']
+  R04: expected=REJECT actual=REJECT dm=True cm=True
+  R05: expected=PEND actual=PEND dm=True cm=True
+  R06: expected=PROCEED actual=PROCEED dm=True cm=True
+  R07: expected=PROCEED actual=PROCEED dm=True cm=True
+  R08: expected=PROCEED_MODIFIED actual=PROCEED_MODIFIED dm=True cm=True
+  R09: expected=PEND actual=PEND dm=True cm=True
+  R10: expected=HOLD_AND_REFER actual=HOLD_AND_REFER dm=True cm=True
+  R11: expected=INVALID_REQUEST actual=INVALID_REQUEST dm=True cm=True
+  R12: expected=REJECT actual=REJECT dm=True cm=True
+  R13: expected=REJECT actual=REJECT dm=True cm=True
+  R14: expected=PEND actual=PEND dm=True cm=True
+  R15: expected=PEND actual=PEND dm=True cm=True

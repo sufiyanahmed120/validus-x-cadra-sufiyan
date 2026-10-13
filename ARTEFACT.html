@@ -2,12 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Artefact</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artefact — TCC Desk Case Reconciliation Report</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.5; }
+    h1 { font-size: 1.6rem; } h2 { font-size: 1.2rem; margin-top: 2rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .92rem; }
+    th, td { border: 1px solid #ccc; padding: .4rem .55rem; text-align: left; vertical-align: top; }
+    th { background: #f2f2f2; } code { background: #f4f4f4; padding: .1rem .3rem; border-radius: 3px; }
+  </style>
 </head>
 <body>
+  <h1>TCC Desk Case Reconciliation Report</h1>
   <p>
-    Fill this file with the written deliverable your problem brief asks for (for example, a
-    Reconciliation Report). The grader reads this exact file — do not rename or move it.
+    <strong>System:</strong> <code>POST /requests</code> — one request object in, one response object out.<br>
+    <strong>Scope:</strong> requests in <code>Data/inbox/requests.json</code> (R01–R15), as of 9 October 2026.<br>
+    <strong>Rules applied:</strong> Validus TCC SOP v4.1 and the Tungabhadra MF addendum.<br>
+    <strong>Contract:</strong> <code>notes/contract.md</code>, enforced by <code>src/contract.py</code> and verified by <code>tests/test_contract.py</code>.
   </p>
+
+  <h2>1. Result</h2>
+  <table>
+    <thead>
+      <tr><th>id</th><th>type</th><th>outcome</th><th>reason codes (SOP 9.3)</th><th>approver</th><th>resolved folio</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>R01</td><td>SIP_REGISTRATION</td><td>PROCEED</td><td>—</td><td>none</td><td>40118823/23</td></tr>
+      <tr><td>R02</td><td>ADDITIONAL_PURCHASE</td><td>REJECT</td><td>TPP_NO_EXCEPTION, BANK_PROOF_REQUIRED</td><td>CHECKER</td><td>40173612/78</td></tr>
+      <tr><td>R03</td><td>SIP_INSTALMENT</td><td>PEND</td><td>BANK_PROOF_REQUIRED</td><td>none</td><td>71138631/21</td></tr>
+      <tr><td>R04</td><td>ADDITIONAL_PURCHASE</td><td>REJECT</td><td>KYC_ON_HOLD</td><td>CHECKER</td><td>40120238/73</td></tr>
+      <tr><td>R05</td><td>NEW_FOLIO_PURCHASE</td><td>PEND</td><td>KYC_REGISTERED_NEW_AMC</td><td>none</td><td>—</td></tr>
+      <tr><td>R06</td><td>ADDITIONAL_PURCHASE</td><td>PROCEED</td><td>—</td><td>none</td><td>40159954/10</td></tr>
+      <tr><td>R07</td><td>ADDITIONAL_PURCHASE</td><td>PROCEED</td><td>—</td><td>none</td><td>40112665/21</td></tr>
+      <tr><td>R08</td><td>NEW_FOLIO_PURCHASE</td><td>PROCEED_MODIFIED</td><td>ARN_INVALID_DIRECT</td><td>CHECKER</td><td>71167297/25</td></tr>
+      <tr><td>R09</td><td>ADDITIONAL_PURCHASE</td><td>PEND</td><td>KYC_UNABLE_TO_VERIFY</td><td>none</td><td>40131574/17</td></tr>
+      <tr><td>R10</td><td>REDEMPTION</td><td>HOLD_AND_REFER</td><td>BANK_PROOF_REQUIRED, COB_COOLING, HIGH_RISK_CONTACT_COB</td><td>OPS_MANAGER</td><td>40115267/30</td></tr>
+      <tr><td>R11</td><td>ADDITIONAL_PURCHASE</td><td>INVALID_REQUEST</td><td>FOLIO_NOT_FOUND</td><td>none</td><td>—</td></tr>
+      <tr><td>R12</td><td>REDEMPTION</td><td>REJECT</td><td>STOP_LOCK</td><td>CHECKER</td><td>40161537/29</td></tr>
+      <tr><td>R13</td><td>ADDITIONAL_PURCHASE</td><td>REJECT</td><td>CASH_LIMIT_BREACH</td><td>CHECKER</td><td>40138985/28</td></tr>
+      <tr><td>R14</td><td>NEW_FOLIO_PURCHASE</td><td>PEND</td><td>ARN_INVALID_DIRECT</td><td>none</td><td>71102387/42</td></tr>
+      <tr><td>R15</td><td>ADDITIONAL_PURCHASE</td><td>PEND</td><td>BANK_PROOF_REQUIRED</td><td>none</td><td>40104822/68</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2. Notable decisions and the clause behind them</h2>
+  <ul>
+    <li><strong>R02 — REJECT, TPP_NO_EXCEPTION (SOP 5.4).</strong> A grandparent payment on a minor folio is a third-party payment outside the exception; refunded to the remitting account.</li>
+    <li><strong>R04 — REJECT, KYC_ON_HOLD (SOP 4.4) → CHECKER.</strong> Transactions of a KYC On Hold investor are not accepted.</li>
+    <li><strong>R05 — PEND, KYC_REGISTERED_NEW_AMC (SOP 4.3).</strong> KYC Registered may transact only where a folio is already held with the AMC.</li>
+    <li><strong>R08 — PROCEED_MODIFIED, ARN_INVALID_DIRECT (SOP 7.2).</strong> Invalid ARN → Direct plan, no commission.</li>
+    <li><strong>R09 — PEND, KYC_UNABLE_TO_VERIFY (SOP 4.5).</strong> An unavailable KRA lookup is never a pass.</li>
+    <li><strong>R10 — HOLD_AND_REFER (SOP 6.4, 6.5).</strong> Redemption during COB cooling after a recent contact change: payout held, referred to Operations Manager and AMC Compliance. <code>THIRD_PARTY_PAYMENT</code> is <code>NOT_APPLICABLE</code> (outgoing payout).</li>
+    <li><strong>R11 — INVALID_REQUEST, FOLIO_NOT_FOUND (SOP 9.4).</strong> A folio not in the folio master is not substituted.</li>
+    <li><strong>R12 — REJECT, STOP_LOCK (SOP 8.4).</strong> No financial transaction processed on a STOP/LOCK folio.</li>
+    <li><strong>R13 — REJECT, CASH_LIMIT_BREACH (SOP 8.5).</strong> Cash above Rs 50,000 per investor/AMC/financial year.</li>
+  </ul>
+
+  <h2>3. Contract conformance</h2>
+  <ul>
+    <li>Exact names: <code>outcomes</code> (not <code>decision</code>); <code>check_id</code> (not <code>check</code>).</li>
+    <li><code>human_approval_required</code> is a boolean; <code>approver_role</code> is <code>CHECKER</code> | <code>OPS_MANAGER</code> | <code>null</code>.</li>
+    <li>Outcomes are the six SOP 9.1 outcomes only; reason codes are SOP 9.3 only.</li>
+    <li><code>resolved.folio_no</code> is <code>NNNNNNNN/NN</code>. All eight check ids are always present.</li>
+  </ul>
+
+  <h2>4. Verification</h2>
+  <ul>
+    <li><code>python -m pytest tests/</code> — 32 passed.</li>
+    <li><code>python eval/run_eval.py</code> — 15/15 decisions correct, 0 unsafe errors, 0 over-cautious errors.</li>
+  </ul>
 </body>
 </html>

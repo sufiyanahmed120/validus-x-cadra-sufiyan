@@ -1,0 +1,969 @@
+[
+  {
+    "request_id": "R01",
+    "expected_decision": "PROCEED",
+    "actual_decision": "PROCEED",
+    "expected_codes": [],
+    "actual_codes": [],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  },
+  {
+    "request_id": "R02",
+    "expected_decision": "REJECT",
+    "actual_decision": "REJECT",
+    "expected_codes": [
+      "TPP_NO_EXCEPTION"
+    ],
+    "actual_codes": [
+      "BANK_PROOF_REQUIRED",
+      "TPP_NO_EXCEPTION"
+    ],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "FAIL",
+        "reason_codes": [
+          "TPP_NO_EXCEPTION"
+        ],
+        "proposed_outcome": "REJECT"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "FAIL",
+        "reason_codes": [
+          "BANK_PROOF_REQUIRED"
+        ],
+        "proposed_outcome": "PEND"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  },
+  {
+    "request_id": "R03",
+    "expected_decision": "PEND",
+    "actual_decision": "PEND",
+    "expected_codes": [
+      "TPP_DOCS_MISSING"
+    ],
+    "actual_codes": [
+      "BANK_PROOF_REQUIRED"
+    ],
+    "decision_match": true,
+    "codes_match": false,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "FAIL",
+        "reason_codes": [
+          "BANK_PROOF_REQUIRED"
+        ],
+        "proposed_outcome": "PEND"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  },
+  {
+    "request_id": "R04",
+    "expected_decision": "REJECT",
+    "actual_decision": "REJECT",
+    "expected_codes": [
+      "KYC_ON_HOLD"
+    ],
+    "actual_codes": [
+      "KYC_ON_HOLD"
+    ],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "FAIL",
+        "reason_codes": [
+          "KYC_ON_HOLD"
+        ],
+        "proposed_outcome": "REJECT"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  },
+  {
+    "request_id": "R05",
+    "expected_decision": "PEND",
+    "actual_decision": "PEND",
+    "expected_codes": [
+      "KYC_REGISTERED_NEW_AMC"
+    ],
+    "actual_codes": [
+      "KYC_REGISTERED_NEW_AMC"
+    ],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "FAIL",
+        "reason_codes": [
+          "KYC_REGISTERED_NEW_AMC"
+        ],
+        "proposed_outcome": "PEND"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  },
+  {
+    "request_id": "R06",
+    "expected_decision": "PROCEED",
+    "actual_decision": "PROCEED",
+    "expected_codes": [],
+    "actual_codes": [],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  },
+  {
+    "request_id": "R07",
+    "expected_decision": "PROCEED",
+    "actual_decision": "PROCEED",
+    "expected_codes": [],
+    "actual_codes": [],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  },
+  {
+    "request_id": "R08",
+    "expected_decision": "PROCEED_MODIFIED",
+    "actual_decision": "PROCEED_MODIFIED",
+    "expected_codes": [
+      "ARN_INVALID_DIRECT"
+    ],
+    "actual_codes": [
+      "ARN_INVALID_DIRECT"
+    ],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "FAIL",
+        "reason_codes": [
+          "ARN_INVALID_DIRECT"
+        ],
+        "proposed_outcome": "PROCEED_MODIFIED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  },
+  {
+    "request_id": "R09",
+    "expected_decision": "PEND",
+    "actual_decision": "PEND",
+    "expected_codes": [
+      "KYC_UNABLE_TO_VERIFY"
+    ],
+    "actual_codes": [
+      "KYC_UNABLE_TO_VERIFY"
+    ],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "UNABLE_TO_VERIFY",
+        "reason_codes": [
+          "KYC_UNABLE_TO_VERIFY"
+        ],
+        "proposed_outcome": "PEND"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  },
+  {
+    "request_id": "R10",
+    "expected_decision": "HOLD_AND_REFER",
+    "actual_decision": "HOLD_AND_REFER",
+    "expected_codes": [
+      "HIGH_RISK_CONTACT_COB",
+      "COB_COOLING"
+    ],
+    "actual_codes": [
+      "TPP_NO_EXCEPTION",
+      "HIGH_RISK_CONTACT_COB",
+      "COB_COOLING"
+    ],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "FAIL",
+        "reason_codes": [
+          "TPP_NO_EXCEPTION"
+        ],
+        "proposed_outcome": "PEND"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "FAIL",
+        "reason_codes": [
+          "COB_COOLING",
+          "HIGH_RISK_CONTACT_COB"
+        ],
+        "proposed_outcome": "HOLD_AND_REFER"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  },
+  {
+    "request_id": "R11",
+    "expected_decision": "INVALID_REQUEST",
+    "actual_decision": "INVALID_REQUEST",
+    "expected_codes": [
+      "FOLIO_NOT_FOUND"
+    ],
+    "actual_codes": [
+      "FOLIO_NOT_FOUND"
+    ],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "FAIL",
+        "reason_codes": [
+          "FOLIO_NOT_FOUND"
+        ],
+        "proposed_outcome": "INVALID_REQUEST"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PEND"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  },
+  {
+    "request_id": "R12",
+    "expected_decision": "REJECT",
+    "actual_decision": "REJECT",
+    "expected_codes": [
+      "STOP_LOCK"
+    ],
+    "actual_codes": [
+      "TPP_NO_EXCEPTION",
+      "STOP_LOCK"
+    ],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "FAIL",
+        "reason_codes": [
+          "TPP_NO_EXCEPTION"
+        ],
+        "proposed_outcome": "PEND"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "FAIL",
+        "reason_codes": [
+          "STOP_LOCK"
+        ],
+        "proposed_outcome": "REJECT"
+      }
+    ]
+  },
+  {
+    "request_id": "R13",
+    "expected_decision": "REJECT",
+    "actual_decision": "REJECT",
+    "expected_codes": [
+      "CASH_LIMIT_BREACH"
+    ],
+    "actual_codes": [
+      "CASH_LIMIT_BREACH"
+    ],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "UNABLE_TO_VERIFY",
+        "reason_codes": [],
+        "proposed_outcome": "PEND"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "FAIL",
+        "reason_codes": [
+          "CASH_LIMIT_BREACH"
+        ],
+        "proposed_outcome": "REJECT"
+      }
+    ]
+  },
+  {
+    "request_id": "R14",
+    "expected_decision": "PEND",
+    "actual_decision": "PEND",
+    "expected_codes": [
+      "ARN_INVALID_DIRECT"
+    ],
+    "actual_codes": [
+      "ARN_INVALID_DIRECT"
+    ],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "FAIL",
+        "reason_codes": [
+          "ARN_INVALID_DIRECT"
+        ],
+        "proposed_outcome": "PEND"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  },
+  {
+    "request_id": "R15",
+    "expected_decision": "PEND",
+    "actual_decision": "PEND",
+    "expected_codes": [],
+    "actual_codes": [
+      "BANK_PROOF_REQUIRED"
+    ],
+    "decision_match": true,
+    "codes_match": true,
+    "checks": [
+      {
+        "check_id": "FOLIO_IDENTITY",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "KYC_STATUS",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "THIRD_PARTY_PAYMENT",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "BANK_MANDATE",
+        "result": "UNABLE_TO_VERIFY",
+        "reason_codes": [
+          "BANK_PROOF_REQUIRED"
+        ],
+        "proposed_outcome": "PEND"
+      },
+      {
+        "check_id": "COB_COOLING",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "DISTRIBUTOR_CODE",
+        "result": "NOT_APPLICABLE",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "MINOR_RULES",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      },
+      {
+        "check_id": "REFERRAL",
+        "result": "PASS",
+        "reason_codes": [],
+        "proposed_outcome": "PROCEED"
+      }
+    ]
+  }
+]

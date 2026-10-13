@@ -1,0 +1,17 @@
+[
+  {"request_id": "R01", "expected_decision": "PROCEED"},
+  {"request_id": "R02", "expected_decision": "REJECT", "reason_codes": ["TPP_NO_EXCEPTION"]},
+  {"request_id": "R03", "expected_decision": "PEND", "reason_codes": ["TPP_DOCS_MISSING"]},
+  {"request_id": "R04", "expected_decision": "REJECT", "reason_codes": ["KYC_ON_HOLD"]},
+  {"request_id": "R05", "expected_decision": "PEND", "reason_codes": ["KYC_REGISTERED_NEW_AMC"]},
+  {"request_id": "R06", "expected_decision": "PROCEED"},
+  {"request_id": "R07", "expected_decision": "PROCEED"},
+  {"request_id": "R08", "expected_decision": "PROCEED_MODIFIED", "reason_codes": ["ARN_INVALID_DIRECT"]},
+  {"request_id": "R09", "expected_decision": "PEND", "reason_codes": ["KYC_UNABLE_TO_VERIFY"]},
+  {"request_id": "R10", "expected_decision": "HOLD_AND_REFER", "reason_codes": ["COB_COOLING", "HIGH_RISK_CONTACT_COB"]},
+  {"request_id": "R11", "expected_decision": "INVALID_REQUEST", "reason_codes": ["FOLIO_NOT_FOUND"]},
+  {"request_id": "R12", "expected_decision": "REJECT", "reason_codes": ["STOP_LOCK"]},
+  {"request_id": "R13", "expected_decision": "REJECT", "reason_codes": ["CASH_LIMIT_BREACH"]},
+  {"request_id": "R14", "expected_decision": "PEND", "reason_codes": ["ARN_INVALID_DIRECT"]},
+  {"request_id": "R15", "expected_decision": "PEND"}
+]
