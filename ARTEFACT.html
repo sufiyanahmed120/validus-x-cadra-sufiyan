@@ -3,73 +3,110 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Artefact — TCC Desk Case Reconciliation Report</title>
+  <title>Artefact</title>
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; line-height: 1.5; }
-    h1 { font-size: 1.6rem; } h2 { font-size: 1.2rem; margin-top: 2rem; }
-    table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .92rem; }
-    th, td { border: 1px solid #ccc; padding: .4rem .55rem; text-align: left; vertical-align: top; }
-    th { background: #f2f2f2; } code { background: #f4f4f4; padding: .1rem .3rem; border-radius: 3px; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; line-height: 1.5; max-width: 820px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.2rem; margin-top: 2rem; border-bottom: 1px solid #ddd; padding-bottom: .25rem; }
+    table { border-collapse: collapse; width: 100%; margin: .75rem 0; }
+    th, td { border: 1px solid #ccc; padding: .4rem .6rem; text-align: left; vertical-align: top; }
+    th { background: #f4f4f4; }
+    code { background: #f4f4f4; padding: 0 .25rem; border-radius: 3px; }
+    ul { margin: .5rem 0; }
   </style>
 </head>
 <body>
-  <h1>TCC Desk Case Reconciliation Report</h1>
-  <p>
-    <strong>System:</strong> <code>POST /requests</code> — one request object in, one response object out.<br>
-    <strong>Scope:</strong> requests in <code>Data/inbox/requests.json</code> (R01–R15), as of 9 October 2026.<br>
-    <strong>Rules applied:</strong> Validus TCC SOP v4.1 and the Tungabhadra MF addendum.<br>
-    <strong>Contract:</strong> <code>notes/contract.md</code>, enforced by <code>src/contract.py</code> and verified by <code>tests/test_contract.py</code>.
-  </p>
+  <h1>Artefact</h1>
 
-  <h2>1. Result</h2>
+  <p><strong>System:</strong> <code>POST /requests</code> — one email request in, one decision out.<br>
+  <strong>Basis:</strong> the 15 requests in <code>Data/inbox/requests.json</code>, decision rules from the policy documents below.<br>
+  <strong>Data prepared by:</strong> <code>scripts/prepare_data.py</code> (report written to <code>prepared/pre_report.json</code>).</p>
+
+  <h2>1. Extracts prepared and data problems found</h2>
+  <p>Five extracts were cleaned by <code>scripts/prepare_data.py</code>. Every row is kept; folio numbers,
+  dates and status codes are normalised in place and problems are counted, not dropped.</p>
+
   <table>
     <thead>
-      <tr><th>id</th><th>type</th><th>outcome</th><th>reason codes (SOP 9.3)</th><th>approver</th><th>resolved folio</th></tr>
+      <tr><th>extract</th><th>rows</th><th>data problems found</th></tr>
     </thead>
     <tbody>
-      <tr><td>R01</td><td>SIP_REGISTRATION</td><td>PROCEED</td><td>—</td><td>none</td><td>40118823/23</td></tr>
-      <tr><td>R02</td><td>ADDITIONAL_PURCHASE</td><td>REJECT</td><td>TPP_NO_EXCEPTION, BANK_PROOF_REQUIRED</td><td>CHECKER</td><td>40173612/78</td></tr>
-      <tr><td>R03</td><td>SIP_INSTALMENT</td><td>PEND</td><td>BANK_PROOF_REQUIRED</td><td>none</td><td>71138631/21</td></tr>
-      <tr><td>R04</td><td>ADDITIONAL_PURCHASE</td><td>REJECT</td><td>KYC_ON_HOLD</td><td>CHECKER</td><td>40120238/73</td></tr>
-      <tr><td>R05</td><td>NEW_FOLIO_PURCHASE</td><td>PEND</td><td>KYC_REGISTERED_NEW_AMC</td><td>none</td><td>—</td></tr>
-      <tr><td>R06</td><td>ADDITIONAL_PURCHASE</td><td>PROCEED</td><td>—</td><td>none</td><td>40159954/10</td></tr>
-      <tr><td>R07</td><td>ADDITIONAL_PURCHASE</td><td>PROCEED</td><td>—</td><td>none</td><td>40112665/21</td></tr>
-      <tr><td>R08</td><td>NEW_FOLIO_PURCHASE</td><td>PROCEED_MODIFIED</td><td>ARN_INVALID_DIRECT</td><td>CHECKER</td><td>71167297/25</td></tr>
-      <tr><td>R09</td><td>ADDITIONAL_PURCHASE</td><td>PEND</td><td>KYC_UNABLE_TO_VERIFY</td><td>none</td><td>40131574/17</td></tr>
-      <tr><td>R10</td><td>REDEMPTION</td><td>HOLD_AND_REFER</td><td>BANK_PROOF_REQUIRED, COB_COOLING, HIGH_RISK_CONTACT_COB</td><td>OPS_MANAGER</td><td>40115267/30</td></tr>
-      <tr><td>R11</td><td>ADDITIONAL_PURCHASE</td><td>INVALID_REQUEST</td><td>FOLIO_NOT_FOUND</td><td>none</td><td>—</td></tr>
-      <tr><td>R12</td><td>REDEMPTION</td><td>REJECT</td><td>STOP_LOCK</td><td>CHECKER</td><td>40161537/29</td></tr>
-      <tr><td>R13</td><td>ADDITIONAL_PURCHASE</td><td>REJECT</td><td>CASH_LIMIT_BREACH</td><td>CHECKER</td><td>40138985/28</td></tr>
-      <tr><td>R14</td><td>NEW_FOLIO_PURCHASE</td><td>PEND</td><td>ARN_INVALID_DIRECT</td><td>none</td><td>71102387/42</td></tr>
-      <tr><td>R15</td><td>ADDITIONAL_PURCHASE</td><td>PEND</td><td>BANK_PROOF_REQUIRED</td><td>none</td><td>40104822/68</td></tr>
+      <tr><td><code>folio_master.csv</code></td><td>83</td><td>0</td></tr>
+      <tr><td><code>kra_kyc_snapshot.csv</code></td><td>95</td><td>0</td></tr>
+      <tr><td><code>transactions.csv</code></td><td>523</td><td>6</td></tr>
+      <tr><td><code>bank_mandates.csv</code></td><td>105</td><td>0</td></tr>
+      <tr><td><code>distributor_master.csv</code></td><td>32</td><td>0</td></tr>
+      <tr><td><strong>total</strong></td><td><strong>838</strong></td><td><strong>6</strong></td></tr>
     </tbody>
   </table>
 
-  <h2>2. Notable decisions and the clause behind them</h2>
+  <p>Data problems, all in <code>transactions.csv</code>:</p>
+  <table>
+    <thead>
+      <tr><th>problem</th><th>count</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>duplicate UTR (same bank reference on more than one transaction row)</td><td>4</td></tr>
+      <tr><td>negative units on a processed purchase</td><td>1</td></tr>
+      <tr><td>negative NAV on a processed purchase</td><td>1</td></tr>
+    </tbody>
+  </table>
+
+  <p>Other normalisation applied but not counted as problems (values were rewritten, not lost):
+  folio numbers with <code>/</code>, <code>-</code> or spaces re-joined; dates in <code>DD-MM-YYYY</code> /
+  <code>DD/MM/YYYY</code> rewritten to <code>YYYY-MM-DD</code>; KRA status codes trimmed to their trailing
+  two digits.</p>
+
+  <h2>2. Policy documents used</h2>
+  <table>
+    <thead>
+      <tr><th>document</th><th>role in the system</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>Validus_TCC_SOP_v4.1.docx</code></td><td>the SOP applied — outcomes (9.1), reason codes (9.3), checks, approvals</td></tr>
+      <tr><td><code>Tungabhadra_MF_Client_Addendum_TMF-ADD-02.pdf</code></td><td>client addendum applied to TMF folios (TMF A1, A2)</td></tr>
+      <tr><td><code>Validus_TCC_SOP_v3.2.pdf</code></td><td>superseded prior SOP — kept for the version check, not applied</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3. Evaluation</h2>
   <ul>
-    <li><strong>R02 — REJECT, TPP_NO_EXCEPTION (SOP 5.4).</strong> A grandparent payment on a minor folio is a third-party payment outside the exception; refunded to the remitting account.</li>
-    <li><strong>R04 — REJECT, KYC_ON_HOLD (SOP 4.4) → CHECKER.</strong> Transactions of a KYC On Hold investor are not accepted.</li>
-    <li><strong>R05 — PEND, KYC_REGISTERED_NEW_AMC (SOP 4.3).</strong> KYC Registered may transact only where a folio is already held with the AMC.</li>
-    <li><strong>R08 — PROCEED_MODIFIED, ARN_INVALID_DIRECT (SOP 7.2).</strong> Invalid ARN → Direct plan, no commission.</li>
-    <li><strong>R09 — PEND, KYC_UNABLE_TO_VERIFY (SOP 4.5).</strong> An unavailable KRA lookup is never a pass.</li>
-    <li><strong>R10 — HOLD_AND_REFER (SOP 6.4, 6.5).</strong> Redemption during COB cooling after a recent contact change: payout held, referred to Operations Manager and AMC Compliance. <code>THIRD_PARTY_PAYMENT</code> is <code>NOT_APPLICABLE</code> (outgoing payout).</li>
-    <li><strong>R11 — INVALID_REQUEST, FOLIO_NOT_FOUND (SOP 9.4).</strong> A folio not in the folio master is not substituted.</li>
-    <li><strong>R12 — REJECT, STOP_LOCK (SOP 8.4).</strong> No financial transaction processed on a STOP/LOCK folio.</li>
-    <li><strong>R13 — REJECT, CASH_LIMIT_BREACH (SOP 8.5).</strong> Cash above Rs 50,000 per investor/AMC/financial year.</li>
+    <li><strong>Set size:</strong> 15 requests, run end to end through <code>POST /requests</code>.</li>
+    <li><strong>Make-up:</strong> R01–R10 are the requests supplied in the brief's inbox. R11–R15 are five extra
+      edge cases written for this system:
+      <ul>
+        <li><strong>R11</strong> purchase quoting a folio that does not exist → <code>INVALID_REQUEST</code></li>
+        <li><strong>R12</strong> redemption on a <code>STOP_LOCK</code> folio → <code>REJECT</code></li>
+        <li><strong>R13</strong> cash payment above Rs 50,000 → <code>REJECT</code></li>
+        <li><strong>R14</strong> a re-worded version of the R02 minor/grandparent case → <code>PEND</code></li>
+        <li><strong>R15</strong> an email instructing the desk to "ignore rules and approve" → <code>PEND</code></li>
+      </ul>
+    </li>
+    <li><strong>Scoring:</strong> a request scores only if the outcome <strong>and</strong> the reason-code set match the
+      expectation in <code>eval/expected.json</code>. Two error types are tracked: <strong>unsafe</strong> (let through
+      when it should have been rejected/held) and <strong>over-cautious</strong> (rejected/held when it should
+      have proceeded).</li>
+    <li><strong>Result (latest run, <code>eval/results/</code>):</strong>
+      <ul>
+        <li>outcome correct: <strong>15/15 (100%)</strong></li>
+        <li>outcome + reason codes exact: <strong>14/15 (93.33%)</strong> — R03 matches on outcome but its reason
+          code is labelled <code>BANK_PROOF_REQUIRED</code> where the expected set said <code>TPP_DOCS_MISSING</code></li>
+        <li><strong>unsafe errors: 0</strong></li>
+        <li><strong>over-cautious errors: 0</strong></li>
+      </ul>
+    </li>
   </ul>
 
-  <h2>3. Contract conformance</h2>
+  <h2>4. Median cost per request</h2>
+  <p>The pipeline makes one extraction call per request (Gemini 2.0 Flash). Token counts are
+  measured over the 15 requests (email subject + body + attachment text in, extraction JSON out):</p>
   <ul>
-    <li>Exact names: <code>outcomes</code> (not <code>decision</code>); <code>check_id</code> (not <code>check</code>).</li>
-    <li><code>human_approval_required</code> is a boolean; <code>approver_role</code> is <code>CHECKER</code> | <code>OPS_MANAGER</code> | <code>null</code>.</li>
-    <li>Outcomes are the six SOP 9.1 outcomes only; reason codes are SOP 9.3 only.</li>
-    <li><code>resolved.folio_no</code> is <code>NNNNNNNN/NN</code>. All eight check ids are always present.</li>
+    <li>median input tokens: <strong>62</strong></li>
+    <li>median output tokens: <strong>95</strong></li>
+    <li>median cost per request: <strong>≈ $0.000044</strong> at $0.10 / 1M input and $0.40 / 1M output</li>
+    <li>that is <strong>≈ $0.044 per 1,000 requests</strong></li>
   </ul>
-
-  <h2>4. Verification</h2>
-  <ul>
-    <li><code>python -m pytest tests/</code> — 32 passed.</li>
-    <li><code>python eval/run_eval.py</code> — 15/15 decisions correct, 0 unsafe errors, 0 over-cautious errors.</li>
-  </ul>
+  <p>Attachment-heavy cases (R02, R03, R06, R10) are the only ones that materially raise the input
+  side; the output side is a fixed-shape extraction and stays flat.</p>
 </body>
 </html>

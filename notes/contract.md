@@ -16,7 +16,7 @@
     "first_holder_pan_masked": "<string>",
     "txn_id": "<string>"
   },
-  "outcomes": "<one of the six SOP 9.1 outcomes>",
+  "outcome": "<one of the six SOP 9.1 outcomes>",
   "reason_codes": [ "<SOP 9.3 code>", ... ],
   "human_approval_required": true | false,          // boolean only
   "approver_role": "CHECKER" | "OPS_MANAGER" | null,

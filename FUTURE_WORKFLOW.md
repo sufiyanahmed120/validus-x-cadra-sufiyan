@@ -17,11 +17,12 @@ flowchart LR
     S5 -- "8 check results + evidence" --> S6[S6 Decide outcome + codes + approval]
     S6 --> S7[S7 Draft reply]
     S6 --> S8[S8 Record audit trail + trace]
-    S6 -- "PROCEED_MODIFIED / REJECT" --> S9H[S9 Checker]
-    S6 -- "HOLD_AND_REFER" --> S9M[S9 Operations Manager]
-    S9M -- "referral" --> COMP[AMC Compliance]
-    S9H -- "approved" --> OUT[Response + reply sent]
-    S9M -- "hold approved" --> OUT
+    S6 -- "PROCEED_MODIFIED / REJECT / HOLD_AND_REFER" --> S9[S9 Human review]
+    S9 --> CHK[Checker]
+    S9 --> OPM[Operations Manager]
+    OPM -- "referral" --> COMP[AMC Compliance]
+    CHK -- "approved" --> OUT[Response + reply sent]
+    OPM -- "hold approved" --> OUT
     S6 -- "PROCEED / PEND / INVALID_REQUEST" --> OUT
     S7 --> OUT
     S2 -. "LLM unavailable" .-> S2F[Heuristic extract + re-scan raw email]
@@ -45,7 +46,7 @@ error yields `PEND`, never `PROCEED`.
 | S1 | Take in the request: email text and attachments, including scans | RULE | `src/ingest.py::ingest_attachments` | base64 files + email → decoded text/files | undecodable file is skipped and noted | BUILT: `src/ingest.py` |
 | S2 | Work out what is asked and pull out the facts the checks need | LLM then RULE fallback | `src/extract.py::extract` | email + attachment text → facts (folio, PAN, amount, ARN/EUIN, account) | heuristic re-scan of raw email; missing fact → check reports UNABLE_TO_VERIFY | BUILT: `src/extract.py` |
 | S3 | Identify the folio, investor and transaction in the records | RULE | `src/checks/folio_identity.py::check_folio_identity` | facts + folio_master/transactions → resolved folio, amc, txn_id | not found or conflict → INVALID_REQUEST (FOLIO_NOT_FOUND / FOLIO_PAN_MISMATCH) | BUILT: `src/checks/folio_identity.py` |
-| S4 | Find the rules that apply (right document, version, client) | RETRIEVAL | `src/decide.py` + SOP v4.1 (`Data/policies/`) | request type + AMC → applicable SOP clauses | unknown type/AMC → conservative PEND | BUILT: `src/decide.py`, `notes/contract.md` |
+| S4 | Find the rules that apply (right document, version, client) | RETRIEVAL | `src/decide.py` + SOP v4.1 (`Data/policies/`) | received_at + AMC → SOP v4.1 (from 1 Aug 2026; v3.2 superseded) | unknown type/AMC → conservative PEND | BUILT: `src/decide.py`, `notes/contract.md` |
 | S5 | Run the checks | RULE | `src/checks/` (8 checks) | resolved facts + extracts → 8 check results with evidence | any unavailable source or exception → UNABLE_TO_VERIFY / PEND | BUILT: `src/checks/__init__.py` |
 | S6 | Decide the outcome, reason codes and approval | RULE | `src/decide.py::decide`, `src/contract.py` | check results → outcome + SOP 9.3 codes + approver | precedence is fixed (9.2), so conflicting checks still resolve deterministically | BUILT: `src/decide.py`, `src/contract.py` |
 | S7 | Draft the reply | RULE (templated, guarded) | `src/reply.py::build_reply` | outcome + reasons + folio → draft reply | forbidden wording or wrong outcome → safe generic reply | BUILT: `src/reply.py` |
@@ -86,7 +87,7 @@ error yields `PEND`, never `PROCEED`.
 |---|---|---|
 | Fully automatic (no person) | ~65–70% | PROCEED / PEND / INVALID_REQUEST sign with the maker alone; in the sample cases roughly two thirds |
 | Person confirms the system's proposal | ~25–30% | PROCEED_MODIFIED / REJECT need the checker's approval; in the sample these were 3–4 of 15 |
-| Person decides | ~5–10% | HOLD_AND_REFER needs the Operations Manager and a referral to AMC Compliance |
+| Person decides | ~5–10% | system cannot decide: gemini or a source unavailable, or details unclear; the maker handles it |
 
 Expected maker and checker minutes per request after the change, and why: about **1–2 minutes** total.
 The lookups and rule-matching (about 9 of the 11 maker minutes) move into deterministic checks, so the

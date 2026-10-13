@@ -34,7 +34,7 @@ def test_every_request_conforms_to_contract():
         assert validate_response(body) == [], f"{req['request_id']}: {validate_response(body)}"
 
         assert body["request_id"] == req["request_id"]
-        assert body["outcomes"] in OUTCOMES
+        assert body["outcome"] in OUTCOMES
         assert "decision" not in body
         assert isinstance(body["human_approval_required"], bool)
         assert body["approver_role"] in ("CHECKER", "OPS_MANAGER", None)
@@ -56,7 +56,7 @@ def test_every_request_conforms_to_contract():
 def test_r10_redemption_contract():
     req = next(r for r in load_requests() if r["request_id"] == "R10")
     body = client.post("/requests", json=req).json()
-    assert body["outcomes"] == "HOLD_AND_REFER"
+    assert body["outcome"] == "HOLD_AND_REFER"
     assert body["approver_role"] == "OPS_MANAGER"
     assert body["human_approval_required"] is True
 

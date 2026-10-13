@@ -1,7 +1,7 @@
 """Response contract enforcement (SOP 9.1-9.3).
 
 Exact contract names:
-  - top-level per-request outcome field is "outcomes" (NOT "decision")
+  - top-level per-request outcome field is "outcome" (NOT "decision")
   - each check item uses "check_id" (NOT "check")
 
 Value domains:
@@ -142,7 +142,7 @@ def normalize_check(check: dict) -> dict:
 def normalize_response(resp: dict) -> dict:
     """Return a copy of the response using exact contract names and domains."""
     out = dict(resp)
-    out["outcomes"] = _to_outcome(resp.get("outcomes", resp.get("decision", "")), "")
+    out["outcome"] = _to_outcome(resp.get("outcome", resp.get("decision", "")), "")
     out.pop("decision", None)
     out.pop("chase_results", None)
 
@@ -184,11 +184,11 @@ def validate_response(resp: dict) -> list:
     errors = []
 
     if "decision" in resp:
-        errors.append("top-level 'decision' present; must be 'outcomes'")
-    if "outcomes" not in resp:
-        errors.append("missing top-level 'outcomes'")
-    elif resp["outcomes"] not in OUTCOMES:
-        errors.append(f"outcomes value '{resp['outcomes']}' is not one of the six outcomes")
+        errors.append("top-level 'decision' present; must be 'outcome'")
+    if "outcome" not in resp:
+        errors.append("missing top-level 'outcome'")
+    elif resp["outcome"] not in OUTCOMES:
+        errors.append(f"outcomes value '{resp['outcome']}' is not one of the six outcomes")
 
     if not isinstance(resp.get("human_approval_required"), bool):
         errors.append("human_approval_required must be a boolean")

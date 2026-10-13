@@ -59,7 +59,7 @@ def evaluate():
             continue
 
         actual = post_request(req)
-        actual_decision = actual.get("outcomes", "UNKNOWN")
+        actual_decision = actual.get("outcome", "UNKNOWN")
         expected_decision = exp["expected_decision"]
 
         actual_codes = set()

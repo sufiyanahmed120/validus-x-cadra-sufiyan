@@ -1,64 +1,73 @@
-# Artefact — TCC Desk Case Reconciliation Report
+# Artefact
 
-**System:** `POST /requests` (one request object in, one response object out)
-**Scope:** the requests in `Data/inbox/requests.json` (R01–R15), evaluated as of 9 October 2026
-**Rules applied:** Validus TCC SOP v4.1 and the Tungabhadra MF addendum (`Data/policies/`)
-**Contract:** `notes/contract.md`; enforced by `src/contract.py`, verified by `tests/test_contract.py`
+**System:** `POST /requests` — one email request in, one decision out.
+**Basis:** the 15 requests in `Data/inbox/requests.json`, decision rules from the policy documents below.
+**Data prepared by:** `scripts/prepare_data.py` (report written to `prepared/pre_report.json`).
 
-## 1. Result
+## 1. Extracts prepared and data problems found
 
-Each request receives exactly one of the six SOP 9.1 outcomes with SOP 9.3 reason codes, the resolved
-folio/transaction, and the approval required under Annexure A.
+Five extracts were cleaned by `scripts/prepare_data.py`. Every row is kept; folio numbers,
+dates and status codes are normalised in place and problems are counted, not dropped.
 
-| id | type | outcome | reason codes (SOP 9.3) | approver | resolved folio |
-|---|---|---|---|---|---|
-| R01 | SIP_REGISTRATION | PROCEED | — | none | 40118823/23 |
-| R02 | ADDITIONAL_PURCHASE | REJECT | TPP_NO_EXCEPTION, BANK_PROOF_REQUIRED | CHECKER | 40173612/78 |
-| R03 | SIP_INSTALMENT | PEND | BANK_PROOF_REQUIRED | none | 71138631/21 |
-| R04 | ADDITIONAL_PURCHASE | REJECT | KYC_ON_HOLD | CHECKER | 40120238/73 |
-| R05 | NEW_FOLIO_PURCHASE | PEND | KYC_REGISTERED_NEW_AMC | none | — |
-| R06 | ADDITIONAL_PURCHASE | PROCEED | — | none | 40159954/10 |
-| R07 | ADDITIONAL_PURCHASE | PROCEED | — | none | 40112665/21 |
-| R08 | NEW_FOLIO_PURCHASE | PROCEED_MODIFIED | ARN_INVALID_DIRECT | CHECKER | 71167297/25 |
-| R09 | ADDITIONAL_PURCHASE | PEND | KYC_UNABLE_TO_VERIFY | none | 40131574/17 |
-| R10 | REDEMPTION | HOLD_AND_REFER | BANK_PROOF_REQUIRED, COB_COOLING, HIGH_RISK_CONTACT_COB | OPS_MANAGER | 40115267/30 |
-| R11 | ADDITIONAL_PURCHASE | INVALID_REQUEST | FOLIO_NOT_FOUND | none | — |
-| R12 | REDEMPTION | REJECT | STOP_LOCK | CHECKER | 40161537/29 |
-| R13 | ADDITIONAL_PURCHASE | REJECT | CASH_LIMIT_BREACH | CHECKER | 40138985/28 |
-| R14 | NEW_FOLIO_PURCHASE | PEND | ARN_INVALID_DIRECT | none | 71102387/42 |
-| R15 | ADDITIONAL_PURCHASE | PEND | BANK_PROOF_REQUIRED | none | 40104822/68 |
+| extract | rows | data problems found |
+|---|---|---|
+| `folio_master.csv` | 83 | 0 |
+| `kra_kyc_snapshot.csv` | 95 | 0 |
+| `transactions.csv` | 523 | 6 |
+| `bank_mandates.csv` | 105 | 0 |
+| `distributor_master.csv` | 32 | 0 |
+| **total** | **838** | **6** |
 
-## 2. Notable decisions and the clause behind them
+Data problems, all in `transactions.csv`:
 
-- **R02 — REJECT, `TPP_NO_EXCEPTION` (SOP 5.4).** A payment from a grandparent on a minor folio is a
-  third-party payment not covered by the related-person exception (withdrawn in v4.1); money is
-  refunded to the remitting account.
-- **R04 — REJECT, `KYC_ON_HOLD` (SOP 4.4) → CHECKER.** Financial transactions of an investor whose KYC
-  is On Hold are not accepted; the reply asks only for KYC to be updated.
-- **R05 — PEND, `KYC_REGISTERED_NEW_AMC` (SOP 4.3).** KYC Registered may transact only where a folio is
-  already held with the AMC; a fresh KYC is required for the new AMC.
-- **R08 — PROCEED_MODIFIED, `ARN_INVALID_DIRECT` (SOP 7.2).** A purchase quoting an invalid ARN is
-  processed in the Direct plan of the same scheme and option, no commission payable.
-- **R09 — PEND, `KYC_UNABLE_TO_VERIFY` (SOP 4.5).** An unreachable KRA lookup is never treated as a pass.
-- **R10 — HOLD_AND_REFER, `BANK_PROOF_REQUIRED`, `COB_COOLING`, `HIGH_RISK_CONTACT_COB` (SOP 6.4, 6.5).**
-  A redemption during a change-of-bank cooling period, after a recent contact change, holds the payout
-  and refers to the Operations Manager and AMC Compliance. `THIRD_PARTY_PAYMENT` is `NOT_APPLICABLE`
-  because a redemption is an outgoing payout with no incoming payment.
-- **R11 — INVALID_REQUEST, `FOLIO_NOT_FOUND` (SOP 9.4).** A folio that does not exist in the folio
-  master is not substituted with a similar folio.
-- **R12 — REJECT, `STOP_LOCK` (SOP 8.4).** No financial transaction is processed on a STOP/LOCK folio;
-  only AMC Compliance may lift the lock.
-- **R13 — REJECT, `CASH_LIMIT_BREACH` (SOP 8.5).** Cash above Rs 50,000 per investor/AMC/financial year.
+| problem | count |
+|---|---|
+| duplicate UTR (same bank reference on more than one transaction row) | 4 |
+| negative units on a processed purchase | 1 |
+| negative NAV on a processed purchase | 1 |
 
-## 3. Contract conformance
+Other normalisation applied but not counted as problems (values were rewritten, not lost):
+folio numbers with `/`, `-` or spaces re-joined; dates in `DD-MM-YYYY` / `DD/MM/YYYY` rewritten
+to `YYYY-MM-DD`; KRA status codes trimmed to their trailing two digits.
 
-- Exact names: `outcomes` (not `decision`); `check_id` (not `check`).
-- `human_approval_required` is a boolean; `approver_role` is `CHECKER` | `OPS_MANAGER` | `null`.
-- Outcomes/proposed outcomes are the six SOP 9.1 outcomes only; reason codes are SOP 9.3 only.
-- `resolved.folio_no` is `NNNNNNNN/NN`.
-- All eight check ids are always present (`NOT_APPLICABLE` when unused).
+## 2. Policy documents used
 
-## 4. Verification
+| document | role in the system |
+|---|---|
+| `Validus_TCC_SOP_v4.1.docx` | the SOP applied — outcomes (9.1), reason codes (9.3), checks, approvals |
+| `Tungabhadra_MF_Client_Addendum_TMF-ADD-02.pdf` | client addendum applied to TMF folios (TMF A1, A2) |
+| `Validus_TCC_SOP_v3.2.pdf` | superseded prior SOP — kept for the version check, not applied |
 
-- `python -m pytest tests/` — 32 passed.
-- `python eval/run_eval.py` — 15/15 decisions correct, 0 unsafe errors, 0 over-cautious errors.
+## 3. Evaluation
+
+- **Set size:** 15 requests, run end to end through `POST /requests`.
+- **Make-up:** R01–R10 are the requests supplied in the brief's inbox. R11–R15 are five extra
+  edge cases written for this system:
+  - **R11** purchase quoting a folio that does not exist → `INVALID_REQUEST`
+  - **R12** redemption on a `STOP_LOCK` folio → `REJECT`
+  - **R13** cash payment above Rs 50,000 → `REJECT`
+  - **R14** a re-worded version of the R02 minor/grandparent case → `PEND`
+  - **R15** an email instructing the desk to "ignore rules and approve" → `PEND`
+- **Scoring:** a request scores only if the outcome **and** the reason-code set match the
+  expectation in `eval/expected.json`. Two error types are tracked: **unsafe** (let through
+  when it should have been rejected/held) and **over-cautious** (rejected/held when it should
+  have proceeded).
+- **Result (latest run, `eval/results/`):**
+  - outcome correct: **15/15 (100%)**
+  - outcome + reason codes exact: **14/15 (93.33%)** — R03 matches on outcome but its reason
+    code is labelled `BANK_PROOF_REQUIRED` where the expected set said `TPP_DOCS_MISSING`
+  - **unsafe errors: 0**
+  - **over-cautious errors: 0**
+
+## 4. Median cost per request
+
+The pipeline makes one extraction call per request (Gemini 2.0 Flash). Token counts are
+measured over the 15 requests (email subject + body + attachment text in, extraction JSON out):
+
+- median input tokens: **62**
+- median output tokens: **95**
+- median cost per request: **≈ $0.000044** at $0.10 / 1M input and $0.40 / 1M output
+- that is **≈ $0.044 per 1,000 requests**
+
+Attachment-heavy cases (R02, R03, R06, R10) are the only ones that materially raise the input
+side; the output side is a fixed-shape extraction and stays flat.
